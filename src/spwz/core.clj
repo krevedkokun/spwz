@@ -72,6 +72,7 @@
    :meta {:profile ["zen-demo-profiles:practitioner"]}
    :name [{:given  ["John"]
            :family "Doe"}]
+   :identifier []
    :telecom [{:system "phone"
               :use    "work"
               :value  "8800555"}
