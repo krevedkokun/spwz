@@ -1,0 +1,30 @@
+{ns my-zen-ns
+ import #{my-stuff.my-schemas}
+
+
+ HumanName
+ {:zen/tags #{zen/schema}
+  :type  zen/vector
+  :every {:type zen/map
+          :keys {:given  {:type  zen/vector
+                          :every {:type zen/string}}
+                 :family {:type zen/string}
+                 :foo    {:confirms #{my-stuff.my-schemas/foo}}}}}
+
+
+ Patient
+ {:zen/tags #{zen/schema my-stuff.my-schemas/persistent-resource}
+  :confirms #{my-stuff.my-schemas/Resource}
+  :resourceType "Patient"
+  :type     zen/map
+  :keys     {:resourceType {:const {:value "Patient"}}
+             :name   {:confirms #{HumanName}}
+             :active {:type zen/boolean}}}
+
+ Practitioner
+ {:zen/tags     #{zen/schema my-stuff.my-schemas/persistent-resource}
+  :confirms     #{my-stuff.my-schemas/Resource}
+  :resourceType "Practitioner"
+  :type         zen/map
+  :keys         {:resourceType {:const {:value "Practitioner"}}
+                 :name {:confirms #{HumanName}}}}}

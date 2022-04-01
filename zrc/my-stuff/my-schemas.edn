@@ -1,0 +1,20 @@
+{ns my-stuff.my-schemas
+
+
+ abstract-resource
+ {:zen/tags #{zen/tag zen/schema}}
+
+
+ persistent-resource
+ {:zen/tags #{zen/tag zen/schema}
+  :type zen/map
+  :keys {:resourceType {:type zen/string}}}
+
+
+ Resource
+ {:zen/tags #{zen/schema abstract-resource}
+  :type     zen/map
+  :keys     {:id           {:type zen/string}
+             :resourceType {:type  zen/string
+                            :regex "^[A-Z][A-Za-z]+$"}
+             :meta         {:type zen/map}}}}
