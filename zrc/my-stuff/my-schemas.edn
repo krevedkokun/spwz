@@ -11,10 +11,18 @@
   :keys {:resourceType {:type zen/string}}}
 
 
+ profile-schema
+ {:zen/tags #{zen/tag zen/schema}
+  :type zen/map
+  :keys {:profileUri {:type zen/string}}}
+
+
  Resource
  {:zen/tags #{zen/schema abstract-resource}
   :type     zen/map
   :keys     {:id           {:type zen/string}
              :resourceType {:type  zen/string
                             :regex "^[A-Z][A-Za-z]+$"}
-             :meta         {:type zen/map}}}}
+             :meta         {:type zen/map
+                            :keys {:profile {:type zen/vector
+                                             :every {:type zen/string}}}}}}}

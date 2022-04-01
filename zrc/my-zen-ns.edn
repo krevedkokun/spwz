@@ -1,7 +1,6 @@
 {ns my-zen-ns
  import #{my-stuff.my-schemas}
 
-
  HumanName
  {:zen/tags #{zen/schema}
   :type  zen/vector
@@ -11,15 +10,29 @@
                  :family {:type zen/string}
                  :foo    {:confirms #{my-stuff.my-schemas/foo}}}}}
 
+ ContactPoint
+ {:zen/tags #{zen/schema}
+  :type zen/map
+  :keys {:system {:type zen/string
+                  :enum [{:value "phone"}
+                         {:value "email"}
+                         {:value "other"}]}
+         :use    {:type zen/string
+                  :enum [{:value "work"}
+                         {:value "mobile"}
+                         {:value "home"}]}
+         :value  {:type zen/string}}}
 
  Patient
- {:zen/tags #{zen/schema my-stuff.my-schemas/persistent-resource}
-  :confirms #{my-stuff.my-schemas/Resource}
+ {:zen/tags     #{zen/schema my-stuff.my-schemas/persistent-resource}
+  :confirms     #{my-stuff.my-schemas/Resource}
   :resourceType "Patient"
-  :type     zen/map
-  :keys     {:resourceType {:const {:value "Patient"}}
-             :name   {:confirms #{HumanName}}
-             :active {:type zen/boolean}}}
+  :type         zen/map
+  :keys         {:resourceType {:const {:value "Patient"}}
+                 :name         {:confirms #{HumanName}}
+                 :active       {:type zen/boolean}
+                 :telecom      {:type  zen/vector
+                                :every {:confirms #{ContactPoint}}}}}
 
  Practitioner
  {:zen/tags     #{zen/schema my-stuff.my-schemas/persistent-resource}
@@ -27,4 +40,43 @@
   :resourceType "Practitioner"
   :type         zen/map
   :keys         {:resourceType {:const {:value "Practitioner"}}
-                 :name {:confirms #{HumanName}}}}}
+                 :name         {:confirms #{HumanName}}
+                 :telecom      {:type  zen/vector
+                                :every {:confirms #{ContactPoint}}}}}
+
+ PractitionerProfile
+ {:zen/tags #{zen/schema my-stuff.my-schemas/profile-schema}
+  :confirms #{Practitioner}
+  :profileUri "zen-demo-profiles:practitioner"
+  :type     zen/map
+  :keys {:telecom {:type zen/vector
+                   :slicing {:slices
+                             {"phone-slice"
+                              {:filter {:engine :zen
+                                        :zen {:type zen/map
+                                              :keys {:system {:const {:value "phone"}}}}}
+                               :schema {:type zen/vector
+                                        :every {:type zen/map
+                                                :keys {:value {:type zen/string
+                                                               :regex "^[0-9]+$"}}}}}
+                              "emailSlice"
+                              {:filter {:engine :zen
+                                        :zen {:type zen/map
+                                              :keys {:system {:const {:value "email"}}}}}
+                               :schema {:type zen/vector
+                                        :every {:type zen/map
+                                                :keys {:value {:type zen/string
+                                                               :regex "@"}}}}}}}}}}}
+
+
+
+
+
+
+
+
+
+
+#_"TODO: what if error in system"
+#_"TODO: what is zen.fhir/profile-schema ????"
+#_"TODO: how to enable zen fhir profiles"
