@@ -5,27 +5,29 @@
  PractitionerProfile
  {:zen/tags #{zen/schema zen.fhir/profile-schema}
   :confirms #{hl7-fhir-r4-core.Practitioner/schema}
-  :profileUri "zen-demo-profiles:practitioner"
+  :zen.fhir/profileUri "zen-demo-profiles:practitioner"
+  :zen.fhir/version "0.5.4"
   :type     zen/map
   :keys {:telecom {:type zen/vector
                    :slicing {:slices
                              {"phone-slice"
-                              {:filter {:engine :zen
-                                        :zen {:type zen/map
-                                              :keys {:system {:const {:value "phone"}}}}}
+                              {:filter {:engine :match
+                                        :match {:system "phone"}}
                                :schema {:type zen/vector
                                         :every {:type zen/map
                                                 :keys {:value {:type zen/string
-                                                               :regex "^[0-9]+$"}}}}}
+                                                               :regex "^[0-9]+$"}}}
+                                        :slicing {:slices {"work phone"
+                                                           {:filter {:engine :match
+                                                                     :match {:use "work"}}
+                                                            :schema {:type zen/vector
+                                                                     :minItems 1}}}
+                                                  :rest {:type zen/vector
+                                                         :maxItems 0}}}}
                               "emailSlice"
-                              {:filter {:engine :zen
-                                        :zen {:type zen/map
-                                              :keys {:system {:const {:value "email"}}}}}
+                              {:filter {:engine :match
+                                        :match {:system "email"}}
                                :schema {:type zen/vector
                                         :every {:type zen/map
                                                 :keys {:value {:type zen/string
-                                                               :regex "@"}}}}}}
-                             :rest {:type zen/vector
-                                    :maxItems 0}}}}}}
-
-
+                                                               :regex "^\\S+@\\S+$"}}}}}}}}}}}
