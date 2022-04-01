@@ -66,17 +66,10 @@
                                :schema {:type zen/vector
                                         :every {:type zen/map
                                                 :keys {:value {:type zen/string
-                                                               :regex "@"}}}}}}}}}}}
+                                                               :regex "@"}}}}}}
+                             :rest {:type zen/vector
+                                    :maxItems 0}}}}}}
 
 
-
-
-
-
-
-
-
-
-#_"TODO: what if error in system"
 #_"TODO: what is zen.fhir/profile-schema ????"
 #_"TODO: how to enable zen fhir profiles"

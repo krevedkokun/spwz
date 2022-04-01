@@ -78,6 +78,6 @@
              {:system "email"
               :use    "work"
               :value "john.doe@example.com"}
-             {:system "phone"
+             {:system "phone!"
               :use    "mobile"
               :value  "88005553535"}]})
