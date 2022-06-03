@@ -1,0 +1,6 @@
+* clojure/zen development environment
+
+** calva keybindings
++ =Alt+Enter= eval top level form
++ =Ctrl+Enter= eval current form (the one cursor is on) or selection
++ =Ctrl+Alt+C Enter= evaluate whole file
